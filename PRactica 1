@@ -1,0 +1,106 @@
+#include <iostream>
+
+#include<stdlib.h>
+#include<time.h>
+
+using namespace std;
+
+
+void inSort(int *A, int n,int &comp,int &inter)  
+{  
+    int key,j;
+	comp=1;  
+    for (int i = 1; i < n; i++) 
+    {  
+        key=*(A+i);  
+        j=i-1;
+        comp++; 
+        while(j>=0 && *(A+j)>=key) 
+        {
+			
+            *(A+(j+1))=*(A+j);  
+            j=j-1;
+			inter=inter+2;  
+        }  
+        *(A+(j+1)) = key;
+        inter=inter+3;
+		
+    }  
+}
+  
+void burbuja(int *A,int tam,int &comparaciones,int &intercambios)
+{
+	int aux;
+	for(int z = 1; z < tam; ++z) 
+	{
+      for(int v = 0; v < (tam - z); v++) 
+	  {
+         comparaciones++;
+         if(*(A+v) > *(A+(v+1)))
+		 {
+            aux = *(A+v);
+            *(A+v) = *(A+(v+1));
+            *(A+(v+1))= aux;
+            intercambios=intercambios+3;
+         }
+      }
+    }
+}
+
+void imprimir(int *A,int n)
+{
+	for(int i=0;i<n;i++)
+	{
+		cout<<A[i]<<" ";
+	}
+	cout<<endl;
+}
+void copia(int *A,int *B,int n)
+{
+	for(int i=0;i<n;i++)
+	{
+		*(B+i)=*(A+i);
+	}
+}
+
+int main()
+{
+	
+	int n;
+	int comp=0,inter=0,c,i;
+	cout<<"Ingrese el size del array: ";
+	cin>>n;
+	int *A=new int[n];
+	float t0=clock();
+	int *B=new int[n];
+	int 
+	//GENERADOR DE NUMEROS ALEATORIOS PARA EL ARRAY
+	srand(time(NULL));
+	for(int i=0;i<n;i++)
+	{
+		*(A+i)=rand()%(n*100);
+	}
+	imprimir(A,n);
+	//EL B SOLO ES UNA COPIA DEL A 
+	copia(A,B,n);
+	cout<<"BURBUJA"<<endl;
+	burbuja(A,n,comp,inter);
+	imprimir(A,n);
+	cout<<"comparaciones: "<<comp<<endl;
+	cout<<"Asignaciones: "<<inter<<endl;
+	float t1=clock();
+	double tiempo=(double (t1-t0)/ CLOCKS_PER_SEC);
+	cout<<"tiempo: "<<tiempo<<endl;
+	cout<<endl;
+	
+	cout<<"Insertion sort"<<endl;
+	inSort(B,n,c,i);
+	imprimir(B,n);
+	cout<<"comparaciones: "<<c<<endl;
+	cout<<"Asignaciones: "<<i<<endl;
+	float t2=clock();
+	double tiempo1=(double (t2-t0)/ CLOCKS_PER_SEC);
+	cout<<"tiempo: "<<tiempo1<<endl;
+	
+	return 0;
+}
